@@ -59,7 +59,7 @@ function reset() {
 
   normalLifespan = Math.random()*1000;
   walkers = [];
-  const walkerCount = Math.exp(Math.random()*11+2);
+  const walkerCount = Math.exp(Math.random()*10+3);
   for (let i = 0; i < walkerCount; i++) {
     walkers.push(new Walker(flowfield, palette,normalLifespan));
   }
