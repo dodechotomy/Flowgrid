@@ -7,20 +7,31 @@ let gridSize;
 let gridCellSize;
 let cellSize;
 let colorA, colorB;
+let palette;
 
 function setup() {
   createCanvas(800, 800);
   rectMode(CENTER);
+  reset();
+}
+
+function keyPressed(){
+  if( key  === 'n'){
+    reset();
+  }
+}
+function reset(){
   gridDetail = 50;
   margin = -1;
   gridSize = width - margin;
   gridCellSize = gridSize / gridDetail;
   cellSize = gridCellSize - margin;
-  colorMode(HSB);
-  const hue = Math.random()*100;
+  palette = Palette.twoColorPalette();
+  // colorMode(HSB);
+  // const hue = Math.random()*100;
   perlin.seed(Math.random());
-  colorA = color(hue,100,100);
-  colorB = color((hue + 50 )% 100,100,50);
+  colorA = palette.nextColor();
+  colorB = palette.nextColor();
   // cellSize = gap-margin;
   grid = createGrid({
     type: "SQUARE",
