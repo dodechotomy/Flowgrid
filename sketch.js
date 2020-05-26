@@ -34,14 +34,11 @@ function reset() {
   cellSize = gridCellSize - margin;
   // palette = Palette.limitedPalette(3);
   palette = new Palette();
-  // colorMode(HSB);
-  // const hue = Math.random()*100;
   perlin.seed(Math.random());
-  background(  palette.nextColor());
+  background(palette.nextColor());
 
   colorA = palette.nextColor();
   colorB = palette.nextColor();
-  // cellSize = gap-margin;
   grid = createGrid({
     type: "SQUARE",
     dimensions: {
@@ -51,7 +48,7 @@ function reset() {
   });
   flowfield = new Flowfield({
     dimensions: {
-      range: [-50, width + 50],
+      range: [-200, width + 200],
       detail: gridDetail
     }
   });
@@ -70,37 +67,8 @@ function reset() {
 }
 
 function draw() {
-  // background(0);
-  // background(palette.background());
   flowfield.mutate();
   noStroke();
-  /*
-  flowfield.grid.points.flat().forEach((point) => {
-    push();
-    // const value = Math.abs(point.value*2 - 1)/2; //flowfield.sample(point);
-    const value = point.value % 1; //flowfield.sample(point);
-    translate(point.x, point.y)
-
-    let angle = value;
-    // const rounding = 256;
-    // angle = Math.round(value*rounding)/rounding;
-    angle = map(value, 0, 1, 0, TWO_PI);
-    let factor = Math.abs(value - 0.5) * 2;
-    colorMode(RGB);
-    const colorC = lerpColor(colorA, colorB, factor);
-    colorMode(HSB);
-    fill(colorC)
-    rect(0, 0, cellSize, cellSize);
-    // fill('#000')
-    // ellipse(-10, 0, cellSize, cellSize);
-    // line(-10, 0, cellSize / 2, 0);
-    stroke(colorC);
-    strokeWeight(2);
-    rotate(angle);
-    line(0, 0, cellSize, cellSize)
-    pop();
-  });
-*/
   walkers.forEach(w=>w.move());
   walkers.forEach(w=>w.draw());
 
