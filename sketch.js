@@ -98,7 +98,7 @@ function reset() {
     type: "SQUARE",
     dimensions: {
       detail: gridDetail,
-      range: [ width*margin, width - width*margin, height*margin, height - height*margin]
+      range: [width * margin, width - width * margin, height * margin, height - height * margin]
     }
   }
 
@@ -111,8 +111,8 @@ function reset() {
   flowfieldMask = new Flowfield(createGrid(options));
   flowfieldMask.initialize();
 
-  const normalLifespan = () => Math.random() * 1000;
-  const walkerCount = () =>3000;// Math.exp(Math.random() * walkerCountExponent + 2);
+  const normalLifespan = () => Math.random() * 250;
+  const walkerCount = () => 3000; // Math.exp(Math.random() * walkerCountExponent + 2);
 
   walkersA = new Group(flowfieldA, paletteA, normalLifespan());
   walkersB = new Group(flowfieldB, paletteB, normalLifespan());
