@@ -1,5 +1,7 @@
 let grid;
 
+let savingFrames = false;
+
 let flowfieldA;
 let flowfieldB;
 let flowfieldMask;
@@ -35,10 +37,11 @@ let groupMask;
 // let imageComp;
 
 function setup() {
-  createCanvas(1920,1080);
-  graphicsA = createGraphics(1920,1080);
-  graphicsB = createGraphics(1920,1080);
-  graphicsMask = createGraphics(1920,1080);
+  createCanvas(1920, 1080);
+  noLoop();
+  graphicsA = createGraphics(1920, 1080);
+  graphicsB = createGraphics(1920, 1080);
+  graphicsMask = createGraphics(1920, 1080);
   // imageComp = createImage(800, 800);
   reset();
 }
@@ -46,6 +49,9 @@ function setup() {
 function keyPressed() {
   if (key === 'n') {
     reset();
+    if(!isLooping()){
+      draw();
+    }
   }
   if (key === 's') {
     saveFrame();
@@ -125,7 +131,6 @@ function reset() {
 function draw() {
   clear();
   reset();
-  // noLoop();
   flowfieldA.mutate();
   // flowfieldB.mutate();
   // flowfieldMask.mutate();
@@ -163,7 +168,9 @@ function draw() {
     drawGraphics(graphicsA);
     // fullDraw();
   }
-  saveFrame();
+  if (savingFrames === true) {
+    saveFrame();
+  }
 
 }
 
