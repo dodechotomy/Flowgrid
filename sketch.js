@@ -45,12 +45,12 @@ const resolution = [400, 400];
 // let imageComp;
 
 function setup() {
-  noLoop();
   createCanvas(resolution[0], resolution[1]);
   graphicsA = createGraphics(resolution[0], resolution[1]);
   graphicsB = createGraphics(resolution[0], resolution[1]);
   graphicsMask = createGraphics(resolution[0], resolution[1]);
   reset();
+  generate();
 }
 
 function saveFrame() {
