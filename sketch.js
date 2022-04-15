@@ -101,9 +101,9 @@ function reset() {
   const normalLifespan = () => Math.random() * 250;
   const walkerCount = () => 3000; // Math.exp(Math.random() * walkerCountExponent + 2);
 
-  walkersA = new Group(flowfieldA, paletteA, normalLifespan());
-  walkersB = new Group(flowfieldB, paletteB, normalLifespan());
-  walkersMask = new Group(flowfieldMask, paletteMask, normalLifespan());
+  walkersA = new WalkerGroup(flowfieldA, paletteA, normalLifespan());
+  walkersB = new WalkerGroup(flowfieldB, paletteB, normalLifespan());
+  walkersMask = new WalkerGroup(flowfieldMask, paletteMask, normalLifespan());
 
   walkersA.spawn(walkerCount());
   walkersB.spawn(walkerCount());
