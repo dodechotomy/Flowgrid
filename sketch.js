@@ -58,10 +58,11 @@ function saveFrame() {
 function reset() {
   gridDetail = 200;
   // palette = Palette.limitedPalette(3);
-  paletteA = new Palette();
-  paletteB = new Palette();
-  paletteMask = new Palette();
-  // paletteMask = Palette.bw();
+  paletteA = Palette.normalPalette()
+  paletteB = Palette.normalPalette()
+  // paletteMask = Palette.normalPalette();
+  paletteMask = Palette.bw();
+
   perlin.seed(Math.random());
   // if (Math.random() < 0.5) {
   graphicsA.background(paletteA.background());
