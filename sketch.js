@@ -30,7 +30,8 @@ let graphicsA;
 let graphicsB;
 let graphicsMask;
 
-let walkerCountExponent = 8;
+let walkerDensity = 3;
+const walkerDensityDenominator = 2000;
 
 let livingWalkers = () => walkersA.active().length + walkersB.active().length + walkersMask.active().length;
 
@@ -96,7 +97,7 @@ function reset() {
   flowfieldMask.mutate();
 
 
-  const walkerCount = () => 3000; // Math.exp(Math.random() * walkerCountExponent + 2);
+  const walkerCount = () => walkerDensity/walkerDensityDenominator * resolution[0] * resolution[1];
 
   walkersA = new WalkerGroup(flowfieldA, paletteA, normalLifespan());
   walkersB = new WalkerGroup(flowfieldB, paletteB, normalLifespan());
