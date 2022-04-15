@@ -24,6 +24,7 @@ let walkersMask;
 let framesToRender = 0;
 let startFrame = 0;
 let savedCount = 0;
+let maxSavedFrames = 200;
 
 let graphicsA;
 let graphicsB;
@@ -52,7 +53,7 @@ function setup() {
 function saveFrame() {
   save(`image${frameCount}frames${Math.floor(framesToRender)}.png`);
   savedCount++;
-  if (savedCount > 200) {
+  if (savedCount > maxSavedFrames) {
     noLoop();
   }
 }
