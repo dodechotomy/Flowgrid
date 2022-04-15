@@ -34,15 +34,16 @@ let livingWalkers = () => walkersA.active().length + walkersB.active().length + 
 let groupA;
 let groupB;
 let groupMask;
+
+const resolution = [400, 400];
 // let imageComp;
 
 function setup() {
-  createCanvas(1920, 1080);
   noLoop();
-  graphicsA = createGraphics(1920, 1080);
-  graphicsB = createGraphics(1920, 1080);
-  graphicsMask = createGraphics(1920, 1080);
-  // imageComp = createImage(800, 800);
+  createCanvas(resolution[0], resolution[1]);
+  graphicsA = createGraphics(resolution[0], resolution[1]);
+  graphicsB = createGraphics(resolution[0], resolution[1]);
+  graphicsMask = createGraphics(resolution[0], resolution[1]);
   reset();
 }
 
