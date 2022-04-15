@@ -89,11 +89,12 @@ function reset() {
   flowfieldA = new Flowfield(createGrid(options));
   flowfieldA.initialize();
 
-  flowfieldB = new Flowfield(createGrid(options));
-  flowfieldB.initialize();
+  flowfieldB = flowfieldA.clone();
+  flowfieldB.mutate();
 
-  flowfieldMask = new Flowfield(createGrid(options));
-  flowfieldMask.initialize();
+  flowfieldMask = flowfieldA.clone();
+  flowfieldMask.mutate();
+
 
   const normalLifespan = () => Math.random() * 250;
   const walkerCount = () => 3000; // Math.exp(Math.random() * walkerCountExponent + 2);
