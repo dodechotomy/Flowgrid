@@ -46,21 +46,6 @@ function setup() {
   reset();
 }
 
-function keyPressed() {
-  if (key === 'n') {
-    reset();
-    if(!isLooping()){
-      draw();
-    }
-  }
-  if (key === 's') {
-    saveFrame();
-  }
-  if (key === 'x') {
-    noLoop();
-  }
-}
-
 function saveFrame() {
   save(`image${frameCount}frames${Math.floor(framesToRender)}.png`);
   savedCount++;
