@@ -1,6 +1,8 @@
 let grid;
 
 let savingFrames = false;
+let overlayMode = false;
+let autoAdvanceMode = false;
 
 let flowfieldA;
 let flowfieldB;
@@ -93,7 +95,6 @@ function reset() {
   flowfieldMask.mutate();
 
 
-  const normalLifespan = () => Math.random() * 250;
   const walkerCount = () => 3000; // Math.exp(Math.random() * walkerCountExponent + 2);
 
   walkersA = new WalkerGroup(flowfieldA, paletteA, normalLifespan());
