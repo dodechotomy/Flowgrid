@@ -82,7 +82,7 @@ function reset() {
     margin = Math.random() / 5;
   }
   const options = {
-    type: "SQUARE",
+    type: "square",
     dimensions: {
       detail: gridDetail,
       range: [width * margin, width - width * margin, height * margin, height - height * margin]
