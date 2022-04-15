@@ -75,9 +75,6 @@ function reset() {
   graphicsMask.noStroke();
 
   margin = -0.2;
-  if (Math.random() < 0.2) {
-    margin = Math.random() / 5;
-  }
   const options = {
     type: "square",
     dimensions: {
