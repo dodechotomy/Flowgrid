@@ -117,40 +117,11 @@ function reset() {
 
 function draw() {
   clear();
-  reset();
-  flowfieldA.mutate();
-  // flowfieldB.mutate();
-  // flowfieldMask.mutate();
-
-  walkersA.fastForward();
-  // walkersB.fastForward();
-  // walkersMask.fastForward();
-
-  walkersA.draw(graphicsA);
-  // walkersB.draw(graphicsB);
-  // walkersMask.draw(graphicsMask);
-
-  // if (frameCount - startFrame > framesToRender) {
-  //   saveFrame();
-  //   reset();
-  // }
-  // if (livingWalkers() < 1) {
-  // }
-
-  if (keyIsPressed === true) {
-    switch (key) {
-      case '1':
-        drawGraphics(graphicsA);
-        break;
-      case '2':
-        drawGraphics(graphicsB);
-        break;
-      case '3':
-        drawGraphics(graphicsMask);
-        break;
-      default:
-        fullDraw();
-    }
+  if (autoAdvanceMode) {
+    generate();
+  }
+  if (overlayMode) {
+    fullDraw();
   } else {
     drawGraphics(graphicsA);
     // fullDraw();
@@ -159,6 +130,21 @@ function draw() {
     saveFrame();
   }
 
+}
+
+function generate() {
+  reset();
+  flowfieldA.mutate();
+  flowfieldB.mutate();
+  flowfieldMask.mutate();
+
+  walkersA.fastForward();
+  walkersB.fastForward();
+  walkersMask.fastForward();
+
+  walkersA.draw(graphicsA);
+  walkersB.draw(graphicsB);
+  walkersMask.draw(graphicsMask);
 }
 
 function fullDraw() {
