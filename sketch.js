@@ -74,9 +74,6 @@ function reset() {
   graphicsB.noStroke();
   graphicsMask.noStroke();
 
-
-  // clear();
-  // }
   margin = -0.2;
   if (Math.random() < 0.2) {
     margin = Math.random() / 5;
@@ -124,7 +121,6 @@ function draw() {
     fullDraw();
   } else {
     drawGraphics(graphicsA);
-    // fullDraw();
   }
   if (savingFrames === true) {
     saveFrame();
@@ -148,7 +144,6 @@ function generate() {
 }
 
 function fullDraw() {
-  // flowfield.draw();
   graphicsA.loadPixels();
   graphicsB.loadPixels();
   graphicsMask.loadPixels();
