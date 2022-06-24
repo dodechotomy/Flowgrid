@@ -72,7 +72,7 @@ function saveFrame() {
 function reset() {
   gridDetail = 200;
   // palette = Palette.limitedPalette(3);
-  paletteA = Palette.inkyColorPalette();
+  paletteA = Palette.createPalette();
   // paletteB = new Palette();
   // paletteMask = new Palette();
   // paletteMask = Palette.bw();
