@@ -3,8 +3,8 @@ let grid;
 let savingFrames = false;
 
 let flowfieldA;
-let flowfieldB;
-let flowfieldMask;
+// let flowfieldB;
+// let flowfieldMask;
 
 let gridDetail;
 let gap;
@@ -12,20 +12,20 @@ let margin;
 let gridSize;
 
 let paletteA;
-let paletteB;
-let paletteMask;
+// let paletteB;
+// let paletteMask;
 
 let walkersA;
-let walkersB;
-let walkersMask;
+// let walkersB;
+// let walkersMask;
 
 let framesToRender = 0;
 let startFrame = 0;
 let savedCount = 0;
 
 let graphicsA;
-let graphicsB;
-let graphicsMask;
+// let graphicsB;
+// let graphicsMask;
 
 let walkerCountExponent = 8;
 
@@ -37,11 +37,11 @@ let groupMask;
 // let imageComp;
 
 function setup() {
-  createCanvas(1920, 1080);
+  createCanvas(640, 400);
   noLoop();
-  graphicsA = createGraphics(1920, 1080);
-  graphicsB = createGraphics(1920, 1080);
-  graphicsMask = createGraphics(1920, 1080);
+  graphicsA = createGraphics(640, 400);
+  // graphicsB = createGraphics(640, 400);
+  // graphicsMask = createGraphics(640, 400);
   // imageComp = createImage(800, 800);
   reset();
 }
@@ -72,20 +72,20 @@ function saveFrame() {
 function reset() {
   gridDetail = 200;
   // palette = Palette.limitedPalette(3);
-  paletteA = new Palette();
-  paletteB = new Palette();
-  paletteMask = new Palette();
+  paletteA = Palette.inkyColorPalette();
+  // paletteB = new Palette();
+  // paletteMask = new Palette();
   // paletteMask = Palette.bw();
   perlin.seed(Math.random());
   // if (Math.random() < 0.5) {
   graphicsA.background(paletteA.background());
-  graphicsB.background(paletteB.background());
-  graphicsMask.background(paletteMask.background());
+  // graphicsB.background(paletteB.background());
+  // graphicsMask.background(paletteMask.background());
 
 
   graphicsA.noStroke();
-  graphicsB.noStroke();
-  graphicsMask.noStroke();
+  // graphicsB.noStroke();
+  // graphicsMask.noStroke();
 
 
   // clear();
@@ -105,22 +105,22 @@ function reset() {
   flowfieldA = new Flowfield(createGrid(options));
   flowfieldA.initialize();
 
-  flowfieldB = new Flowfield(createGrid(options));
-  flowfieldB.initialize();
+  // flowfieldB = new Flowfield(createGrid(options));
+  // flowfieldB.initialize();
 
-  flowfieldMask = new Flowfield(createGrid(options));
-  flowfieldMask.initialize();
+  // flowfieldMask = new Flowfield(createGrid(options));
+  // flowfieldMask.initialize();
 
   const normalLifespan = () => Math.random() * 250;
   const walkerCount = () => 3000; // Math.exp(Math.random() * walkerCountExponent + 2);
 
   walkersA = new Group(flowfieldA, paletteA, normalLifespan());
-  walkersB = new Group(flowfieldB, paletteB, normalLifespan());
-  walkersMask = new Group(flowfieldMask, paletteMask, normalLifespan());
+  // walkersB = new Group(flowfieldB, paletteB, normalLifespan());
+  // walkersMask = new Group(flowfieldMask, paletteMask, normalLifespan());
 
   walkersA.spawn(walkerCount());
-  walkersB.spawn(walkerCount());
-  walkersMask.spawn(walkerCount());
+  // walkersB.spawn(walkerCount());
+  // walkersMask.spawn(walkerCount());
 
 
 
@@ -150,24 +150,24 @@ function draw() {
   // if (livingWalkers() < 1) {
   // }
 
-  if (keyIsPressed === true) {
-    switch (key) {
-      case '1':
-        drawGraphics(graphicsA);
-        break;
-      case '2':
-        drawGraphics(graphicsB);
-        break;
-      case '3':
-        drawGraphics(graphicsMask);
-        break;
-      default:
-        fullDraw();
-    }
-  } else {
+  // if (keyIsPressed === true) {
+  //   switch (key) {
+  //     case '1':
+  //       drawGraphics(graphicsA);
+  //       break;
+  //     case '2':
+  //       drawGraphics(graphicsB);
+  //       break;
+  //     case '3':
+  //       drawGraphics(graphicsMask);
+  //       break;
+  //     default:
+  //       fullDraw();
+  //   }
+  // } else {
     drawGraphics(graphicsA);
     // fullDraw();
-  }
+  // }
   if (savingFrames === true) {
     saveFrame();
   }
