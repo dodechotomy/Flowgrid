@@ -14,17 +14,32 @@ let walkers;
 let graphics;
 
 
-let walkerCount = () => Math.random() > 0.1 ? 1000 : 100;
+
+let walkerDensity = () => Math.random() > 0.1 ? 1/256 : 1/2560;
+
 let normalLifespan = () => (Math.random() * 125) + 125;
 
 let livingWalkers = () => walkers.active().length;
 
 
 
+let queryParams = new URLSearchParams(document.location.search);
+let inky = queryParams.get("inky") === '1';
+let widthParam = inky ? 640*2 : parseInt(queryParams.get("width"));
+let heightParam = inky ? 400*2 : parseInt(queryParams.get("height"));
+
+const canvasWidth = widthParam || window.innerWidth;
+const canvasHeight = heightParam || window.innerHeight;
+
+
+let walkerCount = () => walkerDensity() * canvasWidth * canvasHeight;
+
+
 function setup() {
-  createCanvas(640, 400);
+  createCanvas(canvasWidth, canvasHeight);
   noLoop();
-  graphics = createGraphics(640, 400);
+  graphics = createGraphics(canvasWidth, canvasHeight);
+
   
 }
 
