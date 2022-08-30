@@ -7,14 +7,14 @@ let flowfield;
 
 let gridDetail = 200;
 let gap;
-let margin = -0.2;
+let margin = () => Math.random() > 0.1 ? -0.2 : 0.2;
 let gridSize;
 let palette;
 let walkers;
 let graphics;
 
 
-let walkerCount = () => 1000;
+let walkerCount = () => Math.random() > 0.1 ? 1000 : 100;
 let normalLifespan = () => (Math.random() * 125) + 125;
 
 let livingWalkers = () => walkers.active().length;
@@ -35,6 +35,9 @@ function keyPressed() {
       draw();
     }
   }
+  if(key==='l'){
+  	isLooping()?noLoop():loop();
+  }
 }
 
 function reset() {
@@ -45,16 +48,12 @@ function reset() {
 
   graphics.background(palette.background());
   graphics.noStroke();
-  
-  
-  if (Math.random() < 0.2) {
-    margin = Math.random() / 5;
-  }
+  let _margin = margin();
   const options = {
     type: "SQUARE",
     dimensions: {
       detail: gridDetail,
-      range: [width * margin, width - width * margin, height * margin, height - height * margin]
+      range: [width * _margin, width * (1 - _margin), height * _margin, height * (1 - _margin)]
     }
   }
 
@@ -67,7 +66,6 @@ function reset() {
 
   walkers.spawn(walkerCount());
   
-  document.getElementById("debug-log").innerHTML = walkers.walkers.length;
 }
 
 function draw() {
