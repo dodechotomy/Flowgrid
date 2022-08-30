@@ -2,40 +2,29 @@ let grid;
 
 let savingFrames = false;
 
-let flowfieldA;
+let flowfield;
 
 
-let gridDetail;
+let gridDetail = 200;
 let gap;
-let margin;
+let margin = -0.2;
 let gridSize;
-
-let paletteA;
-
-
-let walkersA;
+let palette;
+let walkers;
+let graphics;
 
 
-let framesToRender = 0;
-let startFrame = 0;
-let savedCount = 0;
+let walkerCount = () => 1000;
+let normalLifespan = () => (Math.random() * 125) + 125;
 
-let graphicsA;
+let livingWalkers = () => walkers.active().length;
 
 
-let walkerCountExponent = 8;
-const walkerCount = () => 10000;
-
-let livingWalkers = () => walkersA.active().length + walkersB.active().length + walkersMask.active().length;
-
-const normalLifespan = () => (Math.random() * 125) + 125;
-
-let groupA;
 
 function setup() {
   createCanvas(640, 400);
   noLoop();
-  graphicsA = createGraphics(640, 400);
+  graphics = createGraphics(640, 400);
   
 }
 
@@ -49,22 +38,15 @@ function keyPressed() {
 }
 
 function reset() {
-  gridDetail = 200;
 
-  paletteA = Palette.inkyInterpolatePalette();
+  palette = Palette.inkyInterpolatePalette();
   
   perlin.seed(Math.random());
 
-  graphicsA.background(paletteA.background());
- 
-
-
-
-
-  graphicsA.noStroke();
+  graphics.background(palette.background());
+  graphics.noStroke();
   
   
-  margin = -0.2;
   if (Math.random() < 0.2) {
     margin = Math.random() / 5;
   }
@@ -76,36 +58,38 @@ function reset() {
     }
   }
 
-  flowfieldA = new Flowfield(createGrid(options));
-  flowfieldA.initialize();
+  flowfield = new Flowfield(createGrid(options));
+  flowfield.initialize();
 
 
-  walkersA = new Group(flowfieldA, paletteA, normalLifespan());
+  walkers = new Group(flowfield, palette, normalLifespan());
   
 
-  walkersA.spawn(walkerCount());
+  walkers.spawn(walkerCount());
   
-
+  document.getElementById("debug-log").innerHTML = walkers.walkers.length;
 }
 
 function draw() {
-  clear();
   reset();
-  flowfieldA.mutate();
-  
-
-  walkersA.fastForward();
-  
-
-  walkersA.draw(graphicsA);
-  
-    drawGraphics(graphicsA);
+  flowfield.mutate();
+  walkers.fastForward();
+  walkers.draw(graphics);
+  drawGraphics(graphics);
 	
+  // stroke(0)
+  // strokeWeight(20);
+  // line(0,0,width,height);
+  // line(0,height,width,0);
+  // stroke(255)
+  // strokeWeight(10);
+  // line(0,0,width,height);
+  // line(0,height,width,0);
 	
 }
 
 function drawGraphics(graphics) {
   clear();
-  image(graphics, -50, -50);
+  image(graphics, 0,0);
 }
 
