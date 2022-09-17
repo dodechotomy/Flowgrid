@@ -89,6 +89,13 @@ function draw() {
   walkers.fastForward();
   walkers.draw(graphics);
   drawGraphics(graphics);
+
+
+
+  displayText();
+  let textcolors = canvasDominantColors();
+  textcolors &= Object.values(textcolors);
+  colorText(textcolors);
 	
   // stroke(0)
   // strokeWeight(20);
@@ -106,3 +113,51 @@ function drawGraphics(graphics) {
   image(graphics, 0,0);
 }
 
+function displayText(){
+  let date = new Date(Date.now());
+
+  const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  let dayOfWeek = dayNames[date.getDay()];
+  
+  let options = { year: "numeric", month: "long", day: "numeric" };
+  let monthDayYear = date.toLocaleDateString("en-US",options);
+
+  document.getElementById("day-of-week").innerHTML = dayOfWeek;
+  document.getElementById("month-day-year").innerHTML = monthDayYear;
+}
+
+function colorText(textcolors){
+  let foreground = textcolors ? textcolors[0] : color("black");
+  let background = textcolors ? textcolors[1] : color("white");
+
+  let contrastResult = Palette.findMaximumContrast(palette.colors);
+  if(contrastResult.maximumContrast > 4.5){
+    foreground = contrastResult.contrastingColors[0];
+    background = contrastResult.contrastingColors[1];
+  }
+
+  document.getElementById("text-display").style.backgroundColor = background.toString('#rrggbb');
+  document.getElementById("day-of-week").style.color = foreground.toString('#rrggbb');
+  document.getElementById("month-day-year").style.color = foreground.toString('#rrggbb');
+
+}
+
+
+//extract dominant colors from canvas
+function canvasDominantColors(){
+  let image = document.getElementsByTagName('canvas')[0];
+
+  let dominantPalette = areaPalette(image, {
+    w: 100,
+    h: 100,
+    x: '50%',
+    y: '50%',
+    palettesize: 8,
+    debug: false
+  });
+
+  let dominantColors = dominantPalette.map(c=>color(c.hex));
+  let acceptableColors = Palette.findContrastPairs(dominantColors,4);
+  let index = floor(random()*acceptableColors.length);
+  return acceptableColors[index];
+}

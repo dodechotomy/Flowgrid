@@ -24,10 +24,40 @@ canvas{
     display: block;
 }
 
-#debug-log{
+#text-display{
     position: absolute;
+/*     height: 50vh; */
+    width: 50vw;
+    
     left: 50vw;
     top: 50vh;
+    transform: translate(-50%,-50%);
     z-index: 100;
     background-color: white;
+    font-size: 8vh;
+    padding: 1em;
+    display: flex;
+    flex-flow: column;
+/*     align-items: stretch; */
+/*     align-content: space-around; */
+/*     justify-content: flex-end; */
+    
+    
+}
+
+#text-display p{
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4.5vw;
+    color: black;
+/*     width: 50vw; */
+    margin: 0;
+/*     flex-grow: 0; */
+}
+#text-display p:first-of-type{
+/*     margin-bottom: 1em; */
+    flex-grow: 1;
+    font-size: 8vw;
 }

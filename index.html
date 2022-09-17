@@ -6,22 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>flowgrid</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800" rel="stylesheet">
+
   <link rel="stylesheet" href="main.css">
 
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
-  <script src="lib/util.js?version=2"></script>
-  <script src="lib/perlin.js?version=2"></script>
-  <script src="lib/group.js?version=2"></script>
-  <script src="lib/palette.js?version=2"></script>
-  <script src="lib/quadtree.js?version=2"></script>
-  <script src="lib/flowfield.js?version=2"></script>
-  <script src="lib/grid.js?version=2"></script>
-  <script src="lib/walker.js?version=2"></script>
-  <script src="sketch.js?version=2"></script>
+  <script src="lib/area-palette.js"></script>
+  <script src="lib/util.js?version=3"></script>
+  <script src="lib/perlin.js?version=3"></script>
+  <script src="lib/group.js?version=3"></script>
+  <script src="lib/palette.js?version=3"></script>
+  <script src="lib/quadtree.js?version=3"></script>
+  <script src="lib/flowfield.js?version=3"></script>
+  <script src="lib/grid.js?version=3"></script>
+  <script src="lib/walker.js?version=3"></script>
+  <script src="lib/textdisplay.js?version=3"></script>
+  <script src="sketch.js?version=3"></script>
 </head>
 
 <body>
-  <div id="debug-log"></div>
+  <div id="text-display"><p id="day-of-week">Day of Week</p><p id="month-day-year"></p></div>
 </body>
 
 </html>
