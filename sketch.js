@@ -94,7 +94,7 @@ function draw() {
 
   displayText();
   let textcolors = canvasDominantColors();
-  textcolors &= Object.values(textcolors);
+  textcolors = textcolors ? Object.values(textcolors) : null;
   colorText(textcolors);
 	
   // stroke(0)
