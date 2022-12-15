@@ -6,11 +6,12 @@ let autoAdvanceMode = false;
 let animateMode = false;
 
 
-let gridDetail;
+let gridSpacing;
 let gap;
 let margin;
 let gridSize;
 
+let backgroundGraphics;
 let graphics;
 let flowfield;
 let palette;
@@ -22,6 +23,10 @@ let framesToRender = 0;
 let startFrame = 0;
 let savedCount = 0;
 let maxSavedFrames = 50;
+
+let autoDelayFrames = 60;
+let lastGeneratedFrame = 0;
+let waiting = false;
 
 
 let walkerDensity = 0.5;
@@ -53,6 +58,7 @@ if(params.has("height")){
 function setup() {
   createCanvas(resolution[0], resolution[1]);
   graphics = createGraphics(resolution[0], resolution[1]);
+  backgroundGraphics = createGraphics(resolution[0], resolution[1]);
   reset();
   generate();
 }
@@ -67,11 +73,13 @@ function saveFrame() {
 }
 
 function reset() {
+  graphics.clear();
   if( !(resolution[0] === width && resolution[1] === height)){
     resizeCanvas(resolution[0], resolution[1], true); //resize canvas without redrawing
     graphics = createGraphics(resolution[0], resolution[1]);
+    backgroundGraphics = createGraphics(resolution[0], resolution[1]);
   }
-  gridDetail = 5;
+  gridSpacing = 50;
   palette = Palette.createPalette()
   if(palette.colors.length > 4){
     secondPalette = palette.split();
@@ -89,7 +97,7 @@ function reset() {
   const options = {
     type: "rectangle",
     dimensions: {
-      detail: gridDetail,
+      detail: gridSpacing,
       range: [width * margin, width - width * margin, height * margin, height - height * margin]
     }
   }
@@ -107,45 +115,46 @@ function reset() {
 }
 
 function draw() {
-  clear();
-  graphics.clear();
-  if (autoAdvanceMode && walkers.complete()) {
+  // graphics.clear();
+  if (walkers.complete() && !waiting) {
     if (savingFinals) {
       saveFrame();
     }
+    lastGeneratedFrame = frameCount;
+    waiting = true;
+  }
+  if(waiting && autoAdvanceMode && frameCount > lastGeneratedFrame + autoDelayFrames){
+    waiting = false;
     generate();
   }
+  clear();
   if(animateMode){
     flowfield.mutate();
     walkers.move();
     walkers.draw(graphics,false);
   }else{
-    //starting ff
-    walkers.fastForward();
-    //done ff
-    //starting walker draw
+    fastForward(walkers);
     walkers.draw(graphics,true);
-    //done walker draw
     if(!autoAdvanceMode){
       noLoop();
     }
   }
-  drawFlowfield(flowfield);
   drawGraphics(graphics);
   if (savingFrames) {
     saveFrame();
   }
-  // clear();
 }
 
 function generate() {
   reset();
   flowfield.mutate();
+  drawBackground(flowfield);
   loop();
 }
 
 
 function drawGraphics(graphics) {
+  image(backgroundGraphics, 0, 0);
   image(graphics, 0, 0);
 }
 
@@ -176,24 +185,37 @@ function filterColor(options){
   
 }
 
-function drawFlowfield(flowfield){
-    colorMode(HSB, 1);
-    noFill();
-    noStroke();
+function drawBackground(flowfield){
+    backgroundGraphics.clear();
+    backgroundGraphics.colorMode(RGB, 1);
+    backgroundGraphics.noFill();
+    backgroundGraphics.noStroke();
     let bg = palette.background();
     let bg1 = palette.nextColor(bg);
-    flowfield.grid.points.flat().forEach(point=>{
-      let x0 = point.x;
-      let y0 = point.y;
-      // let v = p5.Vector.fromAngle(point.value.direction*TWO_PI);
-      // v.setMag(point.value.strength*20);
-    //  let c = palette.colorBlend(point.value.size);
-      let c = bg;
-      if(bg1){
-      c = lerpColor(bg, bg1, point.value.lifespan);
+
+    // bg = color('red');
+    // bg1 = color('blue');
+
+    if(!bg1){
+      backgroundGraphics.background(bg);
+      return;
+    }
+    for(let x = 0; x < width; x++){
+      for(let y = 0; y < height; y++){
+        let sample = flowfield.sample({x,y});
+        let k =  sample.size;
+        // k = map(k,0,1,0,1, true);
+        // k =  Math.round(k);
+        let c = lerpColor(bg, bg1, k);
+        backgroundGraphics.set(x,y,c);
       }
-      fill(c);
-      circle(x0,y0,20);
-    });
-    // filter(BLUR,1);
+    }
+    backgroundGraphics.updatePixels();
+}
+
+
+function fastForward(walkerGroup) {
+  while (!walkerGroup.complete()) {
+    walkerGroup.move();
+  }
 }
