@@ -3,7 +3,10 @@ let grid;
 let savingFrames = false;
 let savingFinals = false;
 let autoAdvanceMode = false;
-let animateMode = false;
+let animateMode = true;
+
+
+let debugFlowfield = false;
 
 
 let gridSpacing;
@@ -79,7 +82,7 @@ function reset() {
     graphics = createGraphics(resolution[0], resolution[1]);
     backgroundGraphics = createGraphics(resolution[0], resolution[1]);
   }
-  gridSpacing = 50;
+  gridSpacing = 400;
   palette = Palette.createPalette()
   if(palette.colors.length > 4){
     secondPalette = palette.split();
@@ -95,14 +98,14 @@ function reset() {
 
   margin = -0.2;
   const options = {
-    type: "rectangle",
+    type: "random",
     dimensions: {
       detail: gridSpacing,
       range: [width * margin, width - width * margin, height * margin, height - height * margin]
     }
   }
 
-  flowfield = new Flowfield(createGrid(options));
+  flowfield = new Flowfield(Grid.createGrid(options));
   flowfield.initialize();
 
 
@@ -142,6 +145,9 @@ function draw() {
   drawGraphics(graphics);
   if (savingFrames) {
     saveFrame();
+  }
+  if(debugFlowfield){
+    flowfield.draw();
   }
 }
 
@@ -195,6 +201,7 @@ function drawBackground(flowfield){
 
     // bg = color('red');
     // bg1 = color('blue');
+    bg1 = null;
 
     if(!bg1){
       backgroundGraphics.background(bg);
@@ -202,7 +209,7 @@ function drawBackground(flowfield){
     }
     for(let x = 0; x < width; x++){
       for(let y = 0; y < height; y++){
-        let sample = flowfield.sample({x,y});
+        let sample = flowfield.sample({x,y},gridSpacing);
         let k =  sample.size;
         // k = map(k,0,1,0,1, true);
         // k =  Math.round(k);
@@ -211,6 +218,7 @@ function drawBackground(flowfield){
       }
     }
     backgroundGraphics.updatePixels();
+    filter(BLUR,2);
 }
 
 
