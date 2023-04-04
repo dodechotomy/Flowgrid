@@ -110,7 +110,29 @@ const controls = {
             };
             element.value = resolution[1];
         }
-    }
+    },
+    lockPalette: {
+        tag: "lock-palette",
+        attach: (element) => {
+            element.onchange = (e) => {
+                resetOptions.keepPalette = e.target.checked;
+                console.log(e.target.name + " toggled to " + e.target.checked)
+            };
+            element.checked = resetOptions.keepPalette;
+
+        }
+    },
+    lockFlowfield: {
+        tag: "lock-flowfield",
+        attach: (element) => {
+            element.onchange = (e) => {
+                resetOptions.keepFlowfield = e.target.checked;
+                console.log(e.target.name + " toggled to " + e.target.checked)
+            };
+            element.checked = resetOptions.keepFlowfield;
+
+        }
+    },
 
 };
 function ready() {

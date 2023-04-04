@@ -31,6 +31,11 @@ let autoDelayFrames = 60;
 let lastGeneratedFrame = 0;
 let waiting = false;
 
+let resetOptions = {
+  keepFlowfield: true,
+  keepPalette: true
+}
+
 
 let walkerDensity = 0.5;
 const walkerDensityDenominator = 2000;
@@ -38,6 +43,7 @@ const sizeRange = [-0.5,1.5];
 const sizeScale = s=>map(s,0,1,sizeRange[0],sizeRange[1]);
 
 let lifeSpan = [100, 300];
+let normalLifespan = () => lifeSpan[0] + (lifeSpan[1] - lifeSpan[0]) * Math.random();
 
 let livingWalkers = () => walkersA.active().length + walkersB.active().length + walkersMask.active().length;
 
@@ -75,19 +81,21 @@ function saveFrame() {
   }
 }
 
-function reset() {
+function reset(options = {}) {
   graphics.clear();
   if( !(resolution[0] === width && resolution[1] === height)){
     resizeCanvas(resolution[0], resolution[1], true); //resize canvas without redrawing
     graphics = createGraphics(resolution[0], resolution[1]);
     backgroundGraphics = createGraphics(resolution[0], resolution[1]);
   }
-  gridSpacing = 400;
-  palette = Palette.createPalette()
-  if(palette.colors.length > 4){
-    secondPalette = palette.split();
-  }else{
-    secondPalette = palette;
+  gridSpacing = 20;
+  if(!palette || !options.keepPalette){
+      palette = Palette.createPalette()
+    if(palette.colors.length > 4){
+      secondPalette = palette.split();
+    }else{
+      secondPalette = palette;
+    }
   }
 
   perlin.seed(Math.random());
@@ -96,22 +104,23 @@ function reset() {
 
   graphics.noStroke();
 
-  margin = -0.2;
-  const options = {
-    type: "random",
-    dimensions: {
-      detail: gridSpacing,
-      range: [width * margin, width - width * margin, height * margin, height - height * margin]
+  if(!flowfield || !options.keepFlowfield){
+    margin = -0.2;
+    const options = {
+      type: "random",
+      dimensions: {
+        detail: gridSpacing,
+        range: [width * margin, width - width * margin, height * margin, height - height * margin]
+      }
     }
+
+    flowfield = new Flowfield(Grid.createGrid(options));
+    flowfield.initialize();
+    flowfield.mutate(); 
   }
 
-  flowfield = new Flowfield(Grid.createGrid(options));
-  flowfield.initialize();
-
-
   const walkerCount = () => walkerDensity/walkerDensityDenominator * resolution[0] * resolution[1];
-  const normalLifespan = () => lifeSpan[0] + (lifeSpan[1] - lifeSpan[0]) * Math.random();
-
+  
   walkers = new WalkerGroup(flowfield, palette, normalLifespan());
 
   walkers.spawn(walkerCount());
@@ -132,7 +141,7 @@ function draw() {
   }
   clear();
   if(animateMode){
-    flowfield.mutate();
+    // flowfield.mutate();
     walkers.move();
     walkers.draw(graphics,false);
   }else{
@@ -152,8 +161,7 @@ function draw() {
 }
 
 function generate() {
-  reset();
-  flowfield.mutate();
+  reset(resetOptions);
   drawBackground(flowfield);
   loop();
 }
