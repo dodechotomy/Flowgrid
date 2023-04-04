@@ -42,6 +42,8 @@ const walkerDensityDenominator = 2000;
 const sizeRange = [-0.5,1.5];
 const sizeScale = s=>map(s,0,1,sizeRange[0],sizeRange[1]);
 
+let suddenEndChance = 0.1;
+
 let lifeSpan = [100, 300];
 let normalLifespan = () => lifeSpan[0] + (lifeSpan[1] - lifeSpan[0]) * Math.random();
 
